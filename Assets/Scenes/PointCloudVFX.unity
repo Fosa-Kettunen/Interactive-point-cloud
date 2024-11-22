@@ -487,7 +487,7 @@ VisualEffect:
       - m_Value: 0.2
         m_Name: Width
         m_Overridden: 1
-      - m_Value: 4
+      - m_Value: 7.59
         m_Name: Intensity
         m_Overridden: 1
     m_Vector2f:
@@ -508,6 +508,12 @@ VisualEffect:
         m_Overridden: 0
       - m_Value: {x: 0.3, y: 0.3, z: 0.3}
         m_Name: Transfrom_scale
+        m_Overridden: 0
+      - m_Value: {x: 0, y: 0, z: 0}
+        m_Name: Hit Collider_transform_angles
+        m_Overridden: 0
+      - m_Value: {x: 1, y: 1, z: 1}
+        m_Name: Hit Collider_transform_scale
         m_Overridden: 0
     m_Vector4f:
       m_Array: []
@@ -815,10 +821,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60e1b50600db9e548ac6f9ee7892e64e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MouseHold: {fileID: 81455532393424597, guid: fa851d5fcdfeac74786f5468ac6e82d0, type: 3}
   Scroll: {fileID: 6408927255912127447, guid: fa851d5fcdfeac74786f5468ac6e82d0, type: 3}
+  PointerPosition: {fileID: 9217655768756169812, guid: fa851d5fcdfeac74786f5468ac6e82d0,
+    type: 3}
   Anchor: {fileID: 1350443937}
-  offset: 0
+  AnchorOffset: 0
 --- !u!1 &1350443936
 GameObject:
   m_ObjectHideFlags: 0
