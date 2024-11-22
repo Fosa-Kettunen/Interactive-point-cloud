@@ -10,6 +10,7 @@ public class MoveAndScaleObject : MonoBehaviour
     [SerializeField] float AnchorOffset = 0;
 
     const float ScaleFactor = 0.1f;
+    const float MaxScale = 50f;
 
     const float timeTillRest = 20f;
     float _timer;
@@ -70,7 +71,10 @@ public class MoveAndScaleObject : MonoBehaviour
 
     void ScaleObj(float scaleAmount)
     {
-        transform.localScale *= 1 + scaleAmount * ScaleFactor;
+        float scaleMultiplier = (1 + scaleAmount * ScaleFactor);
+        if (transform.localScale.x * scaleMultiplier > MaxScale)
+            return;
+        transform.localScale *= scaleMultiplier;
     }
 
     /// <summary>
