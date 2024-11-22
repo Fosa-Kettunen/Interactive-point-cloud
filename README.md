@@ -1,4 +1,4 @@
-# Point cloud Animation
+# Interactive point cloud
 This is a point cloud demo that Uses Unity's VFX Graph and GPU to render an interactive pointcloud.
 
 ![image](https://github.com/user-attachments/assets/a915c4c1-3f66-486a-90c0-594cd1d1410c)
