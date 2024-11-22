@@ -5,10 +5,10 @@ using diagnose = System.Diagnostics;
 [Serializable]
 public class PointChacheDataReader
 {
-    public Texture2D LocationTexture;
-    public int ReadElements;
-    public int MaxPointsToSearch = 10_000;
-    public float rayRadius = 0.15f;
+    [SerializeField] Texture2D LocationTexture;
+    [SerializeField] int ReadElements;
+    [SerializeField] int MaxPointsToSearch = 10_000;
+    [SerializeField] float rayRadius = 0.15f;
   
 
     public event Action<Vector3> OnClosestPointFound;
@@ -39,10 +39,11 @@ public class PointChacheDataReader
             return;
         }
 
+        // find the closest point
+        // there is a chance that points in texture are ordered and the calculation could be done faster
         var storedD = float.MaxValue;
         var storedCoord = Vector3.zero;
         int loopSteps = Mathf.Max(1, (int)(ReadElements / MaxPointsToSearch)); // max for loop so pc wont freeze
-
         for (int i = 0; i < ReadElements; i += loopSteps)
         {
             // read point
@@ -61,7 +62,7 @@ public class PointChacheDataReader
         }
         StowatchEnd();
         
-        if (storedD == float.MaxValue)
+        if (storedD == float.MaxValue) // no closest point
         {
             OnClosestPointFailed.Invoke();
             return;

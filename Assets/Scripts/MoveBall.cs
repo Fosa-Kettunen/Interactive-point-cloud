@@ -1,39 +1,55 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class MoveBall : MonoBehaviour
 {
-    public InputActionReference MouseHold;
-    public InputActionReference Scroll;
+    [SerializeField] InputActionReference MouseHold;
+    [SerializeField] InputActionReference Scroll;
     [Space(10)]
-    public Transform Anchor;
-    public float offset = 0;
+    [SerializeField] Transform Anchor;
+    [SerializeField] float offset = 0;
     Transform _cam;
-    public float Progress => _waitTillHold = _time / _waitTillHold;
-    float _waitTillHold = .5f;
-    float _time;
+
     static Vector3 invertForward = new(1, 0, 1);
     bool _isHolding = false;
 
-    private void OnEnable()
+    void OnEnable()
     {
+        // subscribe to inputs
         if (Scroll != null)
             Scroll.action.performed += OnScroll;
         MouseHold.action.performed += HoldPerfomed;
         MouseHold.action.canceled += HoldEnded;
     }
-    private void HoldPerfomed(InputAction.CallbackContext context)
-    {
-        if(_isHolding) return;
-       _isHolding = true;
-        StartCoroutine(RunHold());
-
-    }
-    private void OnDisable()
+    void OnDisable()
     {
         Scroll.action.performed -= OnScroll;
+    }
+    void Start()
+    {
+        if (Anchor == null)
+        {
+            this.enabled = false;
+            Debug.LogWarning($"Anchor was  not set in {this}");
+            return;
+        }
+        if (MouseHold == null)
+        {
+            this.enabled = false;
+            Debug.LogWarning($"MouseHold was  not set in {this}");
+            return;
+        }
+ 
+        _cam = Camera.main.transform;
+
+    }
+    void HoldPerfomed(InputAction.CallbackContext context)
+    {
+        if (_isHolding) return;
+        _isHolding = true;
+        StartCoroutine(RunHold());
+
     }
     IEnumerator RunHold()
     {
@@ -43,44 +59,31 @@ public class MoveBall : MonoBehaviour
             yield return null;
         }
     }
-    private void HoldEnded(InputAction.CallbackContext context)
+    void HoldEnded(InputAction.CallbackContext context)
     {
         _isHolding = false;
     }
 
-    private void OnScroll(InputAction.CallbackContext context)
+    void OnScroll(InputAction.CallbackContext context)
     {
         var dir = context.action.ReadValue<float>();
         transform.localScale *= 1 + dir * 0.1f;
     }
-
-    private void Start()
-    {
-        
-        bool isPointSet = Anchor != null;
-        bool hasInput = MouseHold != null;
-
-        if (!isPointSet | !hasInput)
-        {
-            this.enabled = false;
-            return;
-        }
-        _cam = Camera.main.transform;
-
-    } 
-
-
-
-    private void CastObjToUpplane()
+    /// <summary>
+    /// Cast object to flat camera facing plane in a anchorpoint
+    /// </summary>
+    void CastObjToUpplane()
     {
         Vector3 planeNormal = _cam.position - Anchor.position;
         planeNormal.Scale(invertForward);
 
-        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()); 
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
         Plane plane = new(planeNormal.normalized, Anchor.position);
-        if (plane.Raycast(ray,out float distance))
+        if (plane.Raycast(ray, out float distance))
         {
             Vector3 hitpoint = ray.GetPoint(distance + offset);
+            
+            // Apply position
             transform.position = hitpoint;
             transform.LookAt(_cam.position);
         }

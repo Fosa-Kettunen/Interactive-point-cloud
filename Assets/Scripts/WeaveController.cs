@@ -30,11 +30,6 @@ public class WeaveController : VFXBinderBase
     {
         return component.HasVector3(shockLocation) & component.HasFloat(phase);
     }
-    private void OnValidate()
-    {
-        if (SpeedMultiplier<.001f)
-            SpeedMultiplier = 001f;
-    }
     public override void UpdateBinding(VisualEffect component)
     {
         if (_startRunning)
@@ -42,6 +37,11 @@ public class WeaveController : VFXBinderBase
             RunEffect(point,component);
             _startRunning = false;
         }
+    }
+     void OnValidate()
+    {
+        if (SpeedMultiplier<.001f)
+            SpeedMultiplier = 001f;
     }
     public void StartEffect(Vector3 point)
     {
