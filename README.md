@@ -1,5 +1,6 @@
 # Interactive point cloud
 This is a point cloud demo that Uses Unity's VFX Graph and GPU to render an interactive pointcloud.
+Download windows build [here](https://github.com/Fosa-Kettunen/Interactive-point-cloud/releases/download/v1.0.0/Interactive-point-cloud-build-v1.0.0.zip)
 
 ![image](https://github.com/user-attachments/assets/a915c4c1-3f66-486a-90c0-594cd1d1410c)
 
